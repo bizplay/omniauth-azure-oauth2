@@ -133,6 +133,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
           'secret'
         end
 
+        def api_version
+          1
+        end
+
         def tenant_id
           'tenant'
         end
@@ -201,6 +205,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
           'tenant'
         end
 
+        def api_version
+          1
+        end
+
         def base_azure_url
           'https://login.microsoftonline.de'
         end
@@ -256,6 +264,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
           'id'
         end
 
+        def api_version
+          2
+        end
+
         def client_secret
           'secret'
         end
@@ -272,11 +284,11 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
     describe '#client' do
       it 'has correct authorize url' do
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/common/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
       end
 
       it 'has correct token url' do
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/common/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/common/oauth2/v2.0/token')
       end
     end
   end

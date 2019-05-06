@@ -10,6 +10,8 @@ module OmniAuth
 
       option :tenant_provider, nil
 
+      option :api_version, 1
+
       # AD resource identifier
       option :resource, '00000002-0000-0000-c000-000000000000'
 
@@ -29,12 +31,14 @@ module OmniAuth
           provider.respond_to?(:tenant_id) ? provider.tenant_id : 'common'
         options.base_azure_url =
           provider.respond_to?(:base_azure_url) ? provider.base_azure_url : BASE_AZURE_URL
+        options.api_version = 
+          provider.api_version == 1 ? 'oauth2' : 'oauth2/v2.0'
 
         options.authorize_params = provider.authorize_params if provider.respond_to?(:authorize_params)
         options.authorize_params.domain_hint = provider.domain_hint if provider.respond_to?(:domain_hint) && provider.domain_hint
         options.authorize_params.prompt = request.params['prompt'] if defined? request && request.params['prompt']
-        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/authorize"
-        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/token"
+        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/#{options.api_version}/authorize"
+        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/#{options.api_version}/token"
         super
       end
 
