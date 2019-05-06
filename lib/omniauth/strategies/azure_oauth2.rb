@@ -12,6 +12,8 @@ module OmniAuth
 
       option :api_version, 1
 
+      option :scopes, ['openid', 'profile', 'offline_access']
+
       # AD resource identifier
       option :resource, '00000002-0000-0000-c000-000000000000'
 
@@ -25,8 +27,9 @@ module OmniAuth
           provider = options  # if pass has to config, get mapped right on to options
         end
 
-        options.client_id = provider.client_id
+        options.scope = provider.scopes.join(' ')
         options.client_secret = provider.client_secret
+        options.
         options.tenant_id =
           provider.respond_to?(:tenant_id) ? provider.tenant_id : 'common'
         options.base_azure_url =
