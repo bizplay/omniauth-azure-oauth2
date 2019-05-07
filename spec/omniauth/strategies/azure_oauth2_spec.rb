@@ -32,7 +32,7 @@ describe OmniAuth::Strategies::AzureOauth2 do
     describe '#client' do
       it 'has correct authorize url' do
         allow(subject).to receive(:request) { request }
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql("https://login.microsoftonline.com/tenant/oauth2/v2.0/authorize")
       end
 
       it 'has correct authorize params' do
@@ -43,7 +43,7 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
       it 'has correct token url' do
         allow(subject).to receive(:request) { request }
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/v2.0/token')
       end
 
       describe "overrides" do
@@ -67,7 +67,7 @@ describe OmniAuth::Strategies::AzureOauth2 do
     describe '#client' do
       it 'has correct authorize url' do
         allow(subject).to receive(:request) { request }
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/v2.0/authorize')
       end
 
       it 'has correct authorize params' do
@@ -78,14 +78,14 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
       it 'has correct token url' do
         allow(subject).to receive(:request) { request }
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/v2.0/token')
       end
 
-      it 'has correct token params' do
-        allow(subject).to receive(:request) { request }
-        subject.client
-        expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
-      end
+      # it 'has correct token params' do
+      #   allow(subject).to receive(:request) { request }
+      #   subject.client
+      #   expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
+      # end
 
       describe "overrides" do
         it 'should override domain_hint' do
@@ -110,11 +110,11 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
     describe '#client' do
       it 'has correct authorize url' do
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/common/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
       end
 
       it 'has correct token url' do
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/common/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/common/oauth2/v2.0/token')
       end
     end
   end
@@ -161,7 +161,7 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
     describe '#client' do
       it 'has correct authorize url' do
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/v2.0/authorize')
       end
 
       it 'has correct authorize params' do
@@ -171,13 +171,13 @@ describe OmniAuth::Strategies::AzureOauth2 do
       end
 
       it 'has correct token url' do
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.com/tenant/oauth2/v2.0/token')
       end
 
-      it 'has correct token params' do
-        subject.client
-        expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
-      end
+      # it 'has correct token params' do
+      #   subject.client
+      #   expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
+      # end
 
       # todo: how to get this working?
       # describe "overrides" do
@@ -233,7 +233,7 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
     describe '#client' do
       it 'has correct authorize url' do
-        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/authorize')
+        expect(subject.client.options[:authorize_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/v2.0/authorize')
       end
 
       it 'has correct authorize params' do
@@ -242,13 +242,13 @@ describe OmniAuth::Strategies::AzureOauth2 do
       end
 
       it 'has correct token url' do
-        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/token')
+        expect(subject.client.options[:token_url]).to eql('https://login.microsoftonline.de/tenant/oauth2/v2.0/token')
       end
 
-      it 'has correct token params' do
-        subject.client
-        expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
-      end
+      # it 'has correct token params' do
+      #   subject.client
+      #   expect(subject.token_params[:resource]).to eql('00000002-0000-0000-c000-000000000000')
+      # end
 
       # todo: how to get this working?
       # describe "overrides" do
@@ -330,27 +330,27 @@ describe OmniAuth::Strategies::AzureOauth2 do
     end
   end
 
-  describe 'token_params' do
-    let(:strategy) { OmniAuth::Strategies::AzureOauth2.new(app, client_id: 'id', client_secret: 'secret') }
-    let(:request)  { double('Request', env: env) }
-    let(:env)      { {} }
+  # describe 'token_params' do
+  #   let(:strategy) { OmniAuth::Strategies::AzureOauth2.new(app, client_id: 'id', client_secret: 'secret') }
+  #   let(:request)  { double('Request', env: env) }
+  #   let(:env)      { {} }
 
-    subject { strategy.token_params }
+  #   subject { strategy.token_params }
 
-    before { allow(strategy).to receive(:request).and_return request }
+  #   before { allow(strategy).to receive(:request).and_return request }
 
-    it { is_expected.to be_a OmniAuth::Strategy::Options }
-    it 'has default resource' do
-      expect(subject.resource).to eq '00000002-0000-0000-c000-000000000000'
-    end
+  #   it { is_expected.to be_a OmniAuth::Strategy::Options }
+  #   it 'has default resource' do
+  #     expect(subject.resource).to eq '00000002-0000-0000-c000-000000000000'
+  #   end
 
-    context 'when custom crm url' do
-      let(:crm_url) { 'https://mydomain.crm.dynamics.com/' }
-      let(:env)     { { 'omniauth.params' => { 'azure_resource' => crm_url } } }
+  #   # context 'when custom crm url' do
+  #   #   let(:crm_url) { 'https://mydomain.crm.dynamics.com/' }
+  #   #   let(:env)     { { 'omniauth.params' => { 'azure_resource' => crm_url } } }
 
-      it 'has resource from url params' do
-        expect(subject.resource).to eq crm_url
-      end
-    end
-  end
+  #   #   it 'has resource from url params' do
+  #   #     expect(subject.resource).to eq crm_url
+  #   #   end
+  #   # end
+  # end
 end

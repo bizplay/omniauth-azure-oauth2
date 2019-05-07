@@ -10,12 +10,7 @@ module OmniAuth
 
       option :tenant_provider, nil
 
-      option :api_version, 1
-
       option :scopes, ['openid', 'profile', 'offline_access']
-
-      # AD resource identifier
-      option :resource, '00000002-0000-0000-c000-000000000000'
 
       # tenant_provider must return client_id, client_secret and optionally tenant_id and base_azure_url
       args [:tenant_provider]
@@ -27,21 +22,19 @@ module OmniAuth
           provider = options  # if pass has to config, get mapped right on to options
         end
 
-        options.scope = provider.scopes.join(' ') unless provider.api_version == 1
+        options.scope = provider.scopes.join(' ')
         options.client_id = provider.client_id
         options.client_secret = provider.client_secret
         options.tenant_id =
           provider.respond_to?(:tenant_id) ? provider.tenant_id : 'common'
         options.base_azure_url =
           provider.respond_to?(:base_azure_url) ? provider.base_azure_url : BASE_AZURE_URL
-        options.api_version = 
-          provider.api_version == 1 ? 'oauth2' : 'oauth2/v2.0'
 
         options.authorize_params = provider.authorize_params if provider.respond_to?(:authorize_params)
         options.authorize_params.domain_hint = provider.domain_hint if provider.respond_to?(:domain_hint) && provider.domain_hint
         options.authorize_params.prompt = request.params['prompt'] if defined? request && request.params['prompt']
-        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/#{options.api_version}/authorize"
-        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/#{options.api_version}/token"
+        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/authorize"
+        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/token"
         super
       end
 
@@ -61,11 +54,10 @@ module OmniAuth
         }
       end
 
-      def token_params
-        return unless options.api_version == 'oauth2'
-        azure_resource = request.env['omniauth.params'] && request.env['omniauth.params']['azure_resource']
-        super.merge(resource: azure_resource || options.resource)
-      end
+      # def token_params
+      #   azure_resource = request.env['omniauth.params'] && request.env['omniauth.params']['azure_resource']
+      #   super.merge(resource: azure_resource || options.resource)
+      # end
 
       def callback_url
         full_host + script_name + callback_path
