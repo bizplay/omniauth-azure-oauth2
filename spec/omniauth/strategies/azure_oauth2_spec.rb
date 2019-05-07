@@ -137,6 +137,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
           1
         end
 
+        def scopes
+          ['openid', 'profile', 'offline_access']
+        end
+
         def tenant_id
           'tenant'
         end
@@ -209,6 +213,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
           1
         end
 
+        def scopes
+          ['openid', 'profile', 'offline_access']
+        end
+
         def base_azure_url
           'https://login.microsoftonline.de'
         end
@@ -266,6 +274,10 @@ describe OmniAuth::Strategies::AzureOauth2 do
 
         def api_version
           2
+        end
+
+        def scopes
+          ['openid', 'profile', 'offline_access']
         end
 
         def client_secret

@@ -27,9 +27,9 @@ module OmniAuth
           provider = options  # if pass has to config, get mapped right on to options
         end
 
-        options.scope = provider.scopes.join(' ')
+        options.scope = provider.scopes.join(' ') unless provider.api_version == 1
+        options.client_id = provider.client_id
         options.client_secret = provider.client_secret
-        options.
         options.tenant_id =
           provider.respond_to?(:tenant_id) ? provider.tenant_id : 'common'
         options.base_azure_url =
