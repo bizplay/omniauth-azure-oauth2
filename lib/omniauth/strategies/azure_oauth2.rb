@@ -62,6 +62,7 @@ module OmniAuth
       end
 
       def token_params
+        return unless options.api_version == 'oauth2'
         azure_resource = request.env['omniauth.params'] && request.env['omniauth.params']['azure_resource']
         super.merge(resource: azure_resource || options.resource)
       end
